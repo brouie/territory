@@ -40,3 +40,15 @@ Ordered next steps for Territory. Complete each phase before moving to the next.
 - [ ] Deploy to opBNB mainnet with production FeeCollector config
 - [ ] Update webapp for mainnet
 - [ ] Optional: playtests, audit
+
+---
+
+## Future Incentives
+
+Currently no explicit player payouts; fees split 70% treasury, 30% CL8Y buy-and-burn. Planned for mainnet:
+
+- **Treasury rewards** – Share of fees distributed to top players (e.g. weekly by territory held or PVP wins)
+- **Hold rewards** – Small Gold or token drip for holding locations over time
+- **PVP bounties** – Bonus for capturing locations owned by other players
+- **Tournaments** – Prize pools from treasury or sponsors
+- **Seasonal rewards** – Token airdrops or special items for active players

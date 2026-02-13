@@ -54,6 +54,7 @@ Open [http://localhost:3000](http://localhost:3000) or try the static demo at `w
 - EVM-based (opBNB / BSC)
 - Fees per action: Move/Spawn 0.00001 BNB, Attack 0.00005 BNB
 - 30% of all fees routed to buy & burn CL8Y
+- Payouts planned (treasury rewards, PVP bounties) – see [Roadmap](docs/ROADMAP.md)
 
 ## Project Structure
 
