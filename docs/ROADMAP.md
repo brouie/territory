@@ -16,18 +16,22 @@ Ordered next steps for Territory. Complete each phase before moving to the next.
 
 ## Phase 2: Contract Deployment
 
-- [ ] Deploy contracts to opBNB testnet (FeeCollector, GameMaster, Map, Combat, Spawn, etc.)
-- [ ] Record deployed addresses
-- [ ] Smoke-test: deposit, move, spawn, attack via cast or script
+- [x] Deploy contracts to opBNB testnet (FeeCollector, GameMaster, Map, Garrison, Combat, Spawn, etc.)
+- [x] Record deployed addresses
+- [x] Lower fees via SetTestnetFees (Move/Spawn 0.00001, Attack 0.00005)
+
+**Testnet deploy:** `cd contracts` then set `PRIVATE_KEY`, `TESTNET=1`, `RPC_URL`, then run `forge script script/Deploy.s.sol:DeployScript --rpc-url $RPC_URL --broadcast`. See `contracts/README.md`.
 
 ---
 
 ## Phase 3: Webapp Integration
 
-- [ ] Add `webapp/src/lib/contracts.ts`: ABIs and deployed addresses
-- [ ] Wire action panel to Map.move, Combat.attack, Spawn.spawn via wagmi
-- [ ] Wire player panel to read location, units, gold from contracts
-- [ ] Test full flow in browser on testnet
+- [x] Add `webapp/src/lib/contracts.ts`: ABIs and deployed addresses
+- [x] Wire Deposit, Spawn, Move, Fortify, Attack via wagmi
+- [x] Thematic map with ownership and power display
+- [x] Fortify action for PVP defense
+
+**Note:** No private key in frontend. Users connect via MetaMask. Override addresses via NEXT_PUBLIC_* in `.env.local` (gitignored).
 
 ---
 

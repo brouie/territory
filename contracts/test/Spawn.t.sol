@@ -43,7 +43,7 @@ contract SpawnTest is Test {
         unitFactory.createToken(1);
         unitFactory.setTokenMinter(1, address(this));
 
-        spawn = new Spawn(address(gameMaster), address(feeCollector), address(unitFactory), address(map), address(gold));
+        spawn = new Spawn(address(gameMaster), address(feeCollector), address(unitFactory), address(map), address(gold), 0.001 ether);
         gameMaster.setGameContract(address(spawn));
 
         unitFactory.setTokenMinter(1, address(spawn));

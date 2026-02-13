@@ -7,7 +7,7 @@ Skill-based GameFi on opBNB/BSC. Fully onchain, deterministic, no RNG. Map-based
 
 ## What is Territory?
 
-Territory is an onchain strategy game where outcomes are determined by player decisions, not luck. Deposit Gold, spawn units, move across map locations, and fight PVE garrisons or other players. Combat is deterministic (power = level × amount; defender wins ties). Every action costs 0.001 BNB in fees; 30% of fees fund CL8Y buy-and-burn.
+Territory is an onchain strategy game where outcomes are determined by player decisions, not luck. Deposit Gold, spawn units, move across map locations, fortify your captures for PVP defense, and attack PVE or other players. Combat is deterministic (power = level × amount; defender wins ties). Fees: Move/Spawn 0.00001 BNB, Attack 0.00005 BNB; 30% of fees fund CL8Y buy-and-burn.
 
 ## Screenshots
 
@@ -19,7 +19,7 @@ Territory is an onchain strategy game where outcomes are determined by player de
 
 - [Foundry](https://book.getfoundry.sh/getting-started/installation) (for contracts)
 - Node.js 18+ and npm (for webapp)
-- A Web3 wallet (e.g. MetaMask) for mainnet; demo mode works without one
+- MetaMask on opBNB Testnet (chain 5611); tBNB for fees
 
 ## Quick start
 
@@ -52,7 +52,7 @@ Open [http://localhost:3000](http://localhost:3000) or try the static demo at `w
 - PVE + PVP battles
 - AGPL open source
 - EVM-based (opBNB / BSC)
-- Fees charged per action (move, attack, spawn)
+- Fees per action: Move/Spawn 0.00001 BNB, Attack 0.00005 BNB
 - 30% of all fees routed to buy & burn CL8Y
 
 ## Project Structure
@@ -89,13 +89,10 @@ Set constructor args for FeeCollector:
 
 ## Docs
 
-- [Roadmap](docs/ROADMAP.md) - Ordered next steps (repo, deploy, integrate)
-- [Guide](docs/GUIDE.md) - Player guide: deposit, spawn, move, attack, fortify
-- [Lore](docs/LORE.md) - Setting and worldbuilding
+- [Roadmap](docs/ROADMAP.md) - Phases and next steps
+- [Guide](docs/GUIDE.md) - Player guide: deposit, spawn, move, fortify, attack
 - [Mechanics](docs/MECHANICS.md) - Core rules, combat formula, fee model
 - [Architecture](docs/ARCHITECTURE.md) - Contract layout and data flow
-- [Contributing](docs/CONTRIBUTING.md) - How to contribute
-- [Changelog](docs/CHANGELOG.md) - Version history
 
 ## License
 

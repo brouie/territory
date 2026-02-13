@@ -1,6 +1,6 @@
 # Territory Webapp
 
-Minimal UI for map, movement, combat, and spawn. Connect wallet (opBNB/BSC) to interact.
+Next.js UI for Territory. Connect MetaMask on opBNB Testnet (Chain 5611) to play.
 
 ## Setup
 
@@ -9,16 +9,23 @@ npm install
 npm run dev
 ```
 
+Open [http://localhost:3000](http://localhost:3000).
+
 ## Features
 
-- Map view with locations and edges
-- Player panel (location, units, gold)
-- Action panel (Move, Attack, Spawn) - wired when contracts deployed
+- **Map** – Territory view with ownership (you / enemy / PVE), power per location
+- **Player panel** – Location, units, gold escrow and wallet
+- **Actions** – Deposit Gold, Spawn, Move, Fortify (defend), Attack
 
-## Contract Integration
+## Contract Addresses
 
-Set contract addresses in `src/lib/contracts.ts` (to be added) and wire up `useReadContract` / `useWriteContract` from wagmi for:
+Defaults point to opBNB testnet deployment. Override via `.env.local`:
 
-- Map.move(fromId, toId)
-- Combat.attack(locationId, unitToken, amount)
-- Spawn.spawn(locationId, level, amount)
+```
+NEXT_PUBLIC_MAP_ADDRESS=0x...
+NEXT_PUBLIC_GAME_MASTER_ADDRESS=0x...
+NEXT_PUBLIC_GOLD_ADDRESS=0x...
+# etc.
+```
+
+**Never put PRIVATE_KEY in any env file committed to git.** The webapp uses MetaMask for signing; no private key in frontend.

@@ -45,7 +45,7 @@ contract FullScenarioTest is Test {
         gameMaster = new GameMaster();
         map = new Map(address(feeCollector), 0.001 ether);
         garrison = new Garrison(address(gameMaster), address(map));
-        combat = new Combat(address(feeCollector), address(gameMaster), address(map), address(garrison));
+        combat = new Combat(address(feeCollector), address(gameMaster), address(map), address(garrison), 0.001 ether);
 
         gameMaster.setGameContract(address(garrison));
         gameMaster.setGameContract(address(combat));
@@ -57,7 +57,7 @@ contract FullScenarioTest is Test {
         unitFactory.createToken(1);
         unitToken = IERC20(unitFactory.getToken(1));
 
-        spawn = new Spawn(address(gameMaster), address(feeCollector), address(unitFactory), address(map), address(gold));
+        spawn = new Spawn(address(gameMaster), address(feeCollector), address(unitFactory), address(map), address(gold), 0.001 ether);
         gameMaster.setGameContract(address(spawn));
         unitFactory.setTokenMinter(1, address(spawn));
 

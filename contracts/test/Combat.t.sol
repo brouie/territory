@@ -33,7 +33,7 @@ contract CombatTest is Test {
         gameMaster = new GameMaster();
         map = new Map(address(feeCollector), 0.001 ether);
         garrison = new Garrison(address(gameMaster), address(map));
-        combat = new Combat(address(feeCollector), address(gameMaster), address(map), address(garrison));
+        combat = new Combat(address(feeCollector), address(gameMaster), address(map), address(garrison), 0.001 ether);
 
         gameMaster.setGameContract(address(garrison));
         gameMaster.setGameContract(address(combat));

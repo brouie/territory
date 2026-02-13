@@ -22,12 +22,18 @@ contract Combat is ICombat, Ownable, ReentrancyGuard {
     uint256 public attackFeeWei;
     uint256 public constant MIN_UNITS = 25 ether;
 
-    constructor(address _feeCollector, address _gameMaster, address _map, address _garrison) Ownable(msg.sender) {
+    constructor(
+        address _feeCollector,
+        address _gameMaster,
+        address _map,
+        address _garrison,
+        uint256 _attackFeeWei
+    ) Ownable(msg.sender) {
         feeCollector = IFeeCollector(payable(_feeCollector));
         gameMaster = IGameMaster(_gameMaster);
         map = IMap(_map);
         garrison = Garrison(payable(_garrison));
-        attackFeeWei = 0.001 ether;
+        attackFeeWei = _attackFeeWei;
     }
 
     /// @notice Attack a location. PVE if unowned, PVP if owned.

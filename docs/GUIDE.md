@@ -43,9 +43,9 @@ After capturing a location, you can fortify it by moving units there. Call `fort
 
 | Action | Fee (BNB) |
 |--------|-----------|
-| Move   | 0.001     |
-| Attack | 0.001     |
-| Spawn  | 0.001     |
+| Move   | 0.00001   |
+| Spawn  | 0.00001   |
+| Attack | 0.00005   |
 
 Fees are split 70 percent to treasury, 30 percent to CL8Y buy-and-burn. Excess BNB sent with a transaction is refunded.
 

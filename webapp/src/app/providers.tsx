@@ -2,14 +2,14 @@
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { WagmiProvider, createConfig, http } from "wagmi";
-import { bsc } from "wagmi/chains";
-import { injected } from "wagmi/connectors";
+import { opBnbTestnet } from "@/lib/chains";
+import { metaMask } from "wagmi/connectors";
 
 const config = createConfig({
-  chains: [bsc],
-  connectors: [injected()],
+  chains: [opBnbTestnet],
+  connectors: [metaMask()],
   transports: {
-    [bsc.id]: http(),
+    [opBnbTestnet.id]: http(),
   },
 });
 

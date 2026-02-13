@@ -1,11 +1,15 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { useAccount, useConnect, useDisconnect } from "wagmi";
 import { MapView } from "@/components/MapView";
 import { PlayerPanel } from "@/components/PlayerPanel";
 import { ActionPanel } from "@/components/ActionPanel";
 
 export default function Home() {
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+
   const { address, isConnected } = useAccount();
   const { connect, connectors } = useConnect();
   const { disconnect } = useDisconnect();
@@ -17,7 +21,9 @@ export default function Home() {
           Territory
         </h1>
         <div className="flex items-center gap-3">
-          {isConnected ? (
+          {!mounted ? (
+            <div className="w-[140px] h-9" />
+          ) : isConnected ? (
             <>
               <span className="font-mono text-sm text-[#8b949e] truncate max-w-[140px]">
                 {address?.slice(0, 6)}...{address?.slice(-4)}
@@ -34,7 +40,7 @@ export default function Home() {
               onClick={() => connect({ connector: connectors[0] })}
               className="px-4 py-2 text-sm font-medium bg-[#39c5cf] text-[#0a0e14] rounded hover:opacity-90 transition-opacity"
             >
-              Connect Wallet
+              Connect (MetaMask)
             </button>
           )}
         </div>

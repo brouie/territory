@@ -31,13 +31,20 @@ contract Spawn is Ownable, ReentrancyGuard {
 
     event Spawned(address indexed player, uint256 locationId, uint256 level, uint256 amount);
 
-    constructor(address _gameMaster, address _feeCollector, address _unitFactory, address _map, address _gold) Ownable(msg.sender) {
+    constructor(
+        address _gameMaster,
+        address _feeCollector,
+        address _unitFactory,
+        address _map,
+        address _gold,
+        uint256 _spawnFeeWei
+    ) Ownable(msg.sender) {
         gameMaster = IGameMaster(_gameMaster);
         feeCollector = IFeeCollector(payable(_feeCollector));
         unitFactory = UnitFactory(_unitFactory);
         map = IMap(_map);
         gold = IERC20(_gold);
-        spawnFeeWei = 0.001 ether;
+        spawnFeeWei = _spawnFeeWei;
         costPerUnit[1] = 1 ether;
     }
 

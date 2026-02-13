@@ -58,13 +58,19 @@ Skill-based GameFi on opBNB/BSC. Fully onchain, deterministic, no RNG. Map-based
 
 ## Fee Model
 
+### Fee Policy
+
+- **Minimum**: Fee must be at least 10x the gas cost so that L2/gas is at most 10% of the fee
+- **Typical actions** (move, spawn): ~$0.01 or less (at BNB $1000: 0.00001 BNB)
+- **Expensive actions** (attack): ~$0.05 (at BNB $1000: 0.00005 BNB)
+
 ### Per-Action Fees
 
-| Action | Fee | Token |
-|--------|-----|-------|
-| move | Configurable (e.g., 0.001 BNB or fixed wei) | BNB or in-game token |
-| attack | Configurable | Same |
-| spawn | Configurable | Same |
+| Action | Default | USD est. (BNB @ $1000) |
+|--------|---------|------------------------|
+| move | 0.00001 BNB | $0.01 |
+| spawn | 0.00001 BNB | $0.01 |
+| attack | 0.00005 BNB | $0.05 |
 
 ### Fee Split
 
