@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   title: "Territory",
   description: "Skill-based map game on opBNB",
   icons: {
-    icon: "/logo.png",
+    icon: "/logo-transparent.png",
   },
 };
 
