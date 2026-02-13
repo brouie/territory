@@ -5,6 +5,9 @@ import { Providers } from "./providers";
 export const metadata: Metadata = {
   title: "Territory",
   description: "Skill-based map game on opBNB",
+  icons: {
+    icon: "/logo.png",
+  },
 };
 
 export default function RootLayout({

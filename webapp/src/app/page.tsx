@@ -17,9 +17,12 @@ export default function Home() {
   return (
     <main className="min-h-screen flex flex-col">
       <header className="border-b border-[#21262d] px-6 py-4 flex items-center justify-between bg-[#0d1117]">
-        <h1 className="font-mono text-xl font-bold tracking-tight text-[#39c5cf]">
-          Territory
-        </h1>
+        <div className="flex items-center gap-2">
+          <img src="/logo.png" alt="Territory" className="h-8 w-8 object-contain" />
+          <h1 className="font-mono text-xl font-bold tracking-tight text-[#39c5cf]">
+            Territory
+          </h1>
+        </div>
         <div className="flex items-center gap-3">
           {!mounted ? (
             <div className="w-[140px] h-9" />
