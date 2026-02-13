@@ -51,6 +51,7 @@ export const MAP_ABI = [
       { name: "fromId", type: "uint256" },
       { name: "toId", type: "uint256" },
     ],
+    outputs: [],
   },
   {
     name: "isAdjacent",
@@ -97,6 +98,7 @@ export const GAME_MASTER_ABI = [
       { name: "token", type: "address" },
       { name: "amount", type: "uint256" },
     ],
+    outputs: [],
   },
 ] as const;
 
@@ -137,6 +139,7 @@ export const COMBAT_ABI = [
       { name: "unitToken", type: "address" },
       { name: "amount", type: "uint256" },
     ],
+    outputs: [],
   },
 ] as const;
 
@@ -150,6 +153,7 @@ export const SPAWN_ABI = [
       { name: "level", type: "uint256" },
       { name: "amount", type: "uint256" },
     ],
+    outputs: [],
   },
 ] as const;
 

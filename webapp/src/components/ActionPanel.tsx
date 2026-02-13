@@ -473,7 +473,7 @@ export function ActionPanel() {
           />
           {attackAmount && (() => {
             const amt = parseEther(attackAmount || "0");
-            const power = amt > 0n ? Number(amt) / 1e18 : 0;
+            const power = Number(amt) > 0 ? Number(amt) / 1e18 : 0;
             const need = getDefenderPower(attackLoc - 1);
             if (power < 25) return null;
             return (
