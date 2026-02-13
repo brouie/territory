@@ -6,11 +6,11 @@ Ordered next steps for Territory. Complete each phase before moving to the next.
 
 ## Phase 1: Git and Repo
 
-- [ ] Initialize git: `git init`
-- [ ] Create new GitHub repo (your org/name)
-- [ ] Add remote: `git remote add origin https://github.com/YOUR_ORG/YOUR_REPO.git`
-- [ ] Update README badge URLs: replace `owner/opbnb` with `YOUR_ORG/YOUR_REPO`
-- [ ] First commit and push
+- [x] Initialize git: `git init`
+- [x] Create new GitHub repo (your org/name)
+- [x] Add remote: `git remote add origin https://github.com/brouie/territory.git`
+- [x] Update README badge URLs: replace `owner/opbnb` with `brouie/territory`
+- [x] First commit and push
 
 ---
 
