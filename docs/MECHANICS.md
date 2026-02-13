@@ -1,0 +1,91 @@
+# Core Game Mechanics
+
+## Overview
+
+Skill-based GameFi on opBNB/BSC. Fully onchain, deterministic, no RNG. Map-based gameplay with PVE and PVP battles. All actions incur fees; 30% of fees route to CL8Y buy-and-burn.
+
+## Map Structure
+
+### Locations (Nodes)
+
+- Locations are discrete points on the map
+- Each location has a unique ID (uint256)
+- Locations may be: empty, player-controlled, or PVE zones
+- Location metadata: owner (address or zero for unowned), type (spawn, combat, resource)
+
+### Adjacency (Edges)
+
+- Locations are connected by directed or undirected edges
+- Movement is only allowed between adjacent locations
+- Edges are defined at map initialization and are immutable for prototype
+
+### Movement Rules
+
+- Player calls `move(fromLocationId, toLocationId)` with their units
+- `from` must be adjacent to `to`
+- Player must own or control `from` (or have units there)
+- Player must have sufficient balance to pay movement fee
+- Movement fee is charged per move action (not per unit)
+
+## Combat
+
+### Deterministic Formula
+
+- **Power**: `power = unitLevel * unitAmount`
+- **Outcome**: Attacker wins if `attackerPower > defenderPower`; defender wins otherwise (ties go to defender)
+- **Losses** (when attacker wins): `attackerLosses = (defenderPower * attackerAmount) / attackerPower`; defender loses all
+- **Losses** (when defender wins): `defenderLosses = (attackerPower * defenderAmount) / defenderPower`; attacker loses all
+- No randomness; outcome is fully predictable from onchain state
+
+### PVE (Player vs Environment)
+
+- Attacking an unowned or NPC-controlled location
+- Minimum units required to attempt (e.g., 25 units)
+- Defender power may be fixed (e.g., location difficulty) or zero for empty
+
+### PVP (Player vs Player)
+
+- Attacking a location controlled by another player
+- Same power formula; defender may have deployed units
+- Defender wins ties
+
+## Spawn
+
+- Players spawn units at designated spawn locations
+- Spawn consumes resources (or base currency) from escrow
+- Unit level determines resource cost (e.g., level 1 = Gold only; higher levels = Gold + materials)
+- Spawn fee charged per spawn action
+
+## Fee Model
+
+### Per-Action Fees
+
+| Action | Fee | Token |
+|--------|-----|-------|
+| move | Configurable (e.g., 0.001 BNB or fixed wei) | BNB or in-game token |
+| attack | Configurable | Same |
+| spawn | Configurable | Same |
+
+### Fee Split
+
+- **70%**: Game treasury / protocol (reused for rewards, operations, or held)
+- **30%**: Routed to CL8Y buy-and-burn (swap for CL8Y on DEX, then burn)
+
+### Fee Token
+
+- Prototype: BNB (native) for simplicity; fees collected in contract
+- Alternative: In-game ERC20; users approve and pay before action
+
+## CL8Y Integration
+
+1. FeeCollector receives fees (BNB or token)
+2. On each fee collection (or batched): split 70/30
+3. 30% portion: swap via DEX/router on opBNB for CL8Y
+4. Burn received CL8Y (send to dead address or use burn function if available)
+5. 70% remains in FeeCollector or forwarded to GameMaster/treasury
+
+## Skill-Based Design
+
+- All outcomes determined by: unit composition, positioning, power math
+- No dice, no randomness, no oracle-based RNG
+- Players can simulate battles offchain before submitting transactions

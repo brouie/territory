@@ -1,0 +1,25 @@
+@import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --surface: #0a0e14;
+  --panel: #0d1117;
+  --border: #21262d;
+  --muted: #6e7681;
+  --accent: #39c5cf;
+  --danger: #ff6b6b;
+  --success: #51cf66;
+}
+
+body {
+  font-family: "IBM Plex Sans", system-ui, sans-serif;
+  background: var(--surface);
+  color: #e6edf3;
+}
+
+.font-mono {
+  font-family: "JetBrains Mono", monospace;
+}
