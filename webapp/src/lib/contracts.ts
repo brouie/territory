@@ -7,17 +7,17 @@
 // opBNB testnet deployment (override with env)
 export const ADDRESSES = {
   map: (process.env.NEXT_PUBLIC_MAP_ADDRESS ||
-    "0xc4D8C0f4B00f98b448292e0bB9f9B82A401e9855") as `0x${string}`,
+    "0x188F94edc3CE64fc5cA5659792588b662F0e9eE4") as `0x${string}`,
   gameMaster: (process.env.NEXT_PUBLIC_GAME_MASTER_ADDRESS ||
-    "0x6c3F4d82dE2ed80FB16ed913C2d9269823140Ab6") as `0x${string}`,
+    "0xCd3BD520868dD16F023A11aEe0ff967353c45858") as `0x${string}`,
   gold: (process.env.NEXT_PUBLIC_GOLD_ADDRESS ||
-    "0x30FdB72a6cCcE6B88aB4096d853Fc594CE46520D") as `0x${string}`,
+    "0x96B78A85D6f4996596AcD9f9619a11CACF751E8d") as `0x${string}`,
   combat: (process.env.NEXT_PUBLIC_COMBAT_ADDRESS ||
-    "0x69CF0E6312013ed119716e258aDA202C63BB6b1c") as `0x${string}`,
+    "0x8F0452E4456b5e87102251B8b36194Ab5004f3cb") as `0x${string}`,
   spawn: (process.env.NEXT_PUBLIC_SPAWN_ADDRESS ||
-    "0x5289b528068d474f2c5870CBCEf8b7E402F1E03c") as `0x${string}`,
+    "0xA985AeD3418a28CfA579C39b4E5FffDFB5983abd") as `0x${string}`,
   unitFactory: (process.env.NEXT_PUBLIC_UNIT_FACTORY_ADDRESS ||
-    "0x638e2663E256162DDD4511F347b9a59AB4E1316d") as `0x${string}`,
+    "0xC5C981353a21dA2aE0830024eef6788e205CC61C") as `0x${string}`,
 } as const;
 
 // Per-action fees (BNB @ $1000: move/spawn ~$0.01, attack ~$0.05)
