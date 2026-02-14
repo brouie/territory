@@ -73,16 +73,13 @@ export default function Home() {
           <p className="text-[#8b949e] text-base sm:text-lg max-w-md text-center mb-8 sm:mb-10 px-4">
             Onchain strategy. Capture locations. PVE and PVP. No RNG.
           </p>
-          <div className="flex flex-col gap-3 sm:gap-4 w-full sm:w-auto px-4 sm:px-0">
-            {connectors.map((connector) => (
-              <button
-                key={connector.uid}
-                onClick={() => connect({ connector })}
-                className="w-full sm:w-auto px-8 py-4 text-base font-semibold bg-[#39c5cf] text-[#0a0e14] rounded-lg hover:opacity-90 transition-opacity shadow-lg shadow-[#39c5cf]/20"
-              >
-                {connector.name === "Injected" ? "Connect Wallet" : connector.name}
-              </button>
-            ))}
+          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 w-full sm:w-auto px-4 sm:px-0">
+            <button
+              onClick={() => connectors[0] && connect({ connector: connectors[0] })}
+              className="w-full sm:w-auto px-8 py-4 text-base font-semibold bg-[#39c5cf] text-[#0a0e14] rounded-lg hover:opacity-90 transition-opacity shadow-lg shadow-[#39c5cf]/20"
+            >
+              Connect Wallet
+            </button>
             <Link
               href="/docs"
               className="w-full sm:w-auto px-8 py-4 text-base font-semibold border border-[#30363d] text-[#e6edf3] rounded-lg hover:bg-[#21262d] hover:border-[#39c5cf]/50 transition-colors flex items-center justify-center"

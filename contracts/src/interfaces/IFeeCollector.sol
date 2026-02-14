@@ -11,6 +11,7 @@ interface IFeeCollector {
     event RouterUpdated(address oldRouter, address newRouter);
     event Cl8yTokenUpdated(address oldCl8y, address newCl8y);
     event WbnbUpdated(address oldWbnb, address newWbnb);
+    event MinCl8ySwapWeiUpdated(uint256 oldMin, uint256 newMin);
 
     error ZeroAddress();
     error TransferFailed();

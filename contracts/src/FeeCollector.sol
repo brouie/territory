@@ -150,6 +150,8 @@ contract FeeCollector is IFeeCollector, Ownable, ReentrancyGuard {
 
     /// @notice Set minimum BNB required to execute CL8Y buy-burn
     function setMinCl8ySwapWei(uint256 _min) external onlyOwner {
+        uint256 old = minCl8ySwapWei;
         minCl8ySwapWei = _min;
+        emit MinCl8ySwapWeiUpdated(old, _min);
     }
 }

@@ -48,6 +48,10 @@ contract Spawn is Ownable, ReentrancyGuard {
         costPerUnit[1] = 1 ether;
     }
 
+    /// @notice Spawn units by consuming gold from escrow
+    /// @dev Units go to player's GameMaster balance, not directly to a location.
+    ///      locationId is recorded for events/analytics but doesn't restrict where units can be used.
+    ///      Player can then fortify any owned location or attack from anywhere.
     function spawn(uint256 locationId, uint256 level, uint256 amount) external payable nonReentrant {
         if (!map.hasLocation(locationId)) revert InvalidLocation();
         if (msg.value < spawnFeeWei) revert InsufficientFee();
@@ -86,5 +90,21 @@ contract Spawn is Ownable, ReentrancyGuard {
 
     function setGold(address _gold) external onlyOwner {
         gold = IERC20(_gold);
+    }
+
+    function setFeeCollector(address _feeCollector) external onlyOwner {
+        feeCollector = IFeeCollector(payable(_feeCollector));
+    }
+
+    function setUnitFactory(address _unitFactory) external onlyOwner {
+        unitFactory = UnitFactory(_unitFactory);
+    }
+
+    function setGameMaster(address _gameMaster) external onlyOwner {
+        gameMaster = IGameMaster(_gameMaster);
+    }
+
+    function setMap(address _map) external onlyOwner {
+        map = IMap(_map);
     }
 }

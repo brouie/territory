@@ -37,18 +37,12 @@ contract Garrison is AccessControl, ReentrancyGuard {
         _units[locationId][token] += amount;
     }
 
-    /// @notice Get defender power at location (sum of level * amount for each token)
-    function getDefenderPower(uint256 locationId) external view returns (uint256 power) {
-        address owner = map.getLocationOwner(locationId);
-        if (owner == address(0)) return 0;
-        // We don't iterate all tokens - caller passes token. For single-token prototype we need token.
-        // Simpler: store (locationId => token => amount), and we need to know which tokens exist.
-        // For now, we'll have a single token per location assumption, or Combat passes the token.
-        // Actually getDefenderPower needs to sum over all tokens at location. We can't enumerate.
-        // Alternative: getDefenderPower(locationId, token) returns that token's contribution.
-        // Combat would need to call for each possible token. For prototype with one unit type: one token.
-        // Let's change to getDefenderPower(locationId, token) - combat passes the defender token.
-        return 0;
+    /// @notice Get defender power at location for a specific token
+    /// @dev This is an alias for getDefenderPowerForToken for backwards compatibility
+    /// @param locationId The location to check
+    /// @param token The unit token to check power for
+    function getDefenderPower(uint256 locationId, IERC20 token) external view returns (uint256) {
+        return getDefenderPowerForToken(locationId, token);
     }
 
     /// @notice Get defender power for a specific token at location
