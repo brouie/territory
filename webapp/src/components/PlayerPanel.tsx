@@ -79,9 +79,9 @@ export function PlayerPanel() {
 
   if (!mounted) {
     return (
-      <div className="space-y-4">
-        <h2 className="font-mono font-semibold text-[#e6edf3]">Player</h2>
-        <div className="space-y-2 text-sm">
+      <div className="space-y-3 sm:space-y-4">
+        <h2 className="font-mono font-semibold text-[#e6edf3] text-sm sm:text-base">Player</h2>
+        <div className="space-y-2 text-xs sm:text-sm">
           <p className="text-[#8b949e]">Location: <span className="font-mono text-[#e6edf3]">—</span></p>
           <p className="text-[#8b949e]">Units: <span className="font-mono text-[#e6edf3]">—</span></p>
           <p className="text-[#8b949e]">Gold (escrow): <span className="font-mono text-[#e6edf3]">—</span></p>
@@ -93,55 +93,70 @@ export function PlayerPanel() {
 
   if (!isConnected || !address) {
     return (
-      <div className="space-y-4">
-        <h2 className="font-mono font-semibold text-[#e6edf3]">Player</h2>
-        <p className="text-sm text-[#8b949e]">Connect wallet to see status</p>
+      <div className="space-y-3 sm:space-y-4">
+        <h2 className="font-mono font-semibold text-[#e6edf3] text-sm sm:text-base">Player</h2>
+        <p className="text-xs sm:text-sm text-[#8b949e]">Connect wallet to see status</p>
       </div>
     );
   }
 
   return (
-    <div className="space-y-4">
-      <h2 className="font-mono font-semibold text-[#e6edf3]">Player</h2>
-      <div className="space-y-2 text-sm">
-        <p className="text-[#8b949e]">
-          Location:{" "}
-          <span className="font-mono text-[#e6edf3]">
-            {isLoading
-              ? "..."
-              : location !== undefined
-                  ? location === BigInt(0)
-                  ? "—"
-                  : String(location)
+    <div className="space-y-3 sm:space-y-4">
+      <h2 className="font-mono font-semibold text-[#e6edf3] text-sm sm:text-base">Player</h2>
+      
+      {/* Mobile: Grid layout, Desktop: List */}
+      <div className="grid grid-cols-2 gap-3 sm:grid-cols-1 sm:gap-0 sm:space-y-2">
+        <div className="border border-[#21262d] rounded p-2 sm:border-0 sm:p-0">
+          <p className="text-[10px] sm:text-xs text-[#6e7681] sm:hidden">Location</p>
+          <p className="text-xs sm:text-sm text-[#8b949e]">
+            <span className="hidden sm:inline">Location: </span>
+            <span className="font-mono text-[#e6edf3] text-base sm:text-sm">
+              {isLoading
+                ? "..."
+                : location !== undefined
+                    ? location === BigInt(0)
+                    ? "—"
+                    : String(location)
+                  : "—"}
+            </span>
+          </p>
+        </div>
+        <div className="border border-[#21262d] rounded p-2 sm:border-0 sm:p-0">
+          <p className="text-[10px] sm:text-xs text-[#6e7681] sm:hidden">Units</p>
+          <p className="text-xs sm:text-sm text-[#8b949e]">
+            <span className="hidden sm:inline">Units: </span>
+            <span className="font-mono text-[#e6edf3] text-base sm:text-sm">
+              {unitsEscrow !== undefined
+                ? formatUnits(unitsEscrow)
                 : "—"}
-          </span>
-        </p>
-        <p className="text-[#8b949e]">
-          Units:{" "}
-          <span className="font-mono text-[#e6edf3]">
-            {unitsEscrow !== undefined
-              ? formatUnits(unitsEscrow)
-              : "—"}
-          </span>
-        </p>
-        <p className="text-[#8b949e]">
-          Gold (escrow):{" "}
-          <span className="font-mono text-[#e6edf3]">
-            {goldEscrow !== undefined
-              ? formatUnits(goldEscrow)
-              : "—"}
-          </span>
-        </p>
-        <p className="text-[#8b949e]">
-          Gold (wallet):{" "}
-          <span className="font-mono text-[#e6edf3]">
-            {goldWallet !== undefined
-              ? formatUnits(goldWallet)
-              : "—"}
-          </span>
-        </p>
+            </span>
+          </p>
+        </div>
+        <div className="border border-[#21262d] rounded p-2 sm:border-0 sm:p-0">
+          <p className="text-[10px] sm:text-xs text-[#6e7681] sm:hidden">Gold (escrow)</p>
+          <p className="text-xs sm:text-sm text-[#8b949e]">
+            <span className="hidden sm:inline">Gold (escrow): </span>
+            <span className="font-mono text-[#e6edf3] text-base sm:text-sm">
+              {goldEscrow !== undefined
+                ? formatUnits(goldEscrow)
+                : "—"}
+            </span>
+          </p>
+        </div>
+        <div className="border border-[#21262d] rounded p-2 sm:border-0 sm:p-0">
+          <p className="text-[10px] sm:text-xs text-[#6e7681] sm:hidden">Gold (wallet)</p>
+          <p className="text-xs sm:text-sm text-[#8b949e]">
+            <span className="hidden sm:inline">Gold (wallet): </span>
+            <span className="font-mono text-[#e6edf3] text-base sm:text-sm">
+              {goldWallet !== undefined
+                ? formatUnits(goldWallet)
+                : "—"}
+            </span>
+          </p>
+        </div>
       </div>
-      <p className="text-xs text-[#6e7681]">
+      
+      <p className="text-[10px] sm:text-xs text-[#6e7681]">
         Deposit Gold (after Approve), then Spawn. Spawn needs Gold in escrow.
       </p>
     </div>

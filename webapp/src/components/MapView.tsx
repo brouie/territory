@@ -84,7 +84,7 @@ export function MapView() {
 
   if (!mounted || !isConnected) {
     return (
-      <div className="h-[420px] flex items-center justify-center text-[#8b949e] font-mono border border-[#21262d] rounded-lg bg-[#0a0e14]">
+      <div className="h-[280px] sm:h-[350px] lg:h-[420px] flex items-center justify-center text-[#8b949e] font-mono border border-[#21262d] rounded-lg bg-[#0a0e14]">
         Connect wallet to view map
       </div>
     );
@@ -93,12 +93,12 @@ export function MapView() {
   const locId = playerLoc !== undefined ? Number(playerLoc) : 0;
 
   return (
-    <div className="space-y-3">
-      <h2 className="font-mono font-semibold text-[#e6edf3]">Territory Map</h2>
+    <div className="space-y-2 sm:space-y-3">
+      <h2 className="font-mono font-semibold text-[#e6edf3] text-sm sm:text-base">Territory Map</h2>
       <div
         className="relative w-full rounded-lg overflow-hidden"
         style={{
-          minHeight: 420,
+          minHeight: "clamp(280px, 50vw, 420px)",
           background: "linear-gradient(180deg, #0d1117 0%, #161b22 50%, #0d1117 100%)",
           border: "1px solid #21262d",
           boxShadow: "inset 0 0 80px rgba(0,0,0,0.4)",
@@ -107,7 +107,7 @@ export function MapView() {
         <svg
           viewBox="0 0 100 100"
           className="w-full h-full"
-          style={{ minHeight: 420 }}
+          style={{ minHeight: "clamp(280px, 50vw, 420px)" }}
           preserveAspectRatio="xMidYMid meet"
         >
           <defs>
@@ -200,12 +200,13 @@ export function MapView() {
             );
           })}
         </svg>
-        <div className="absolute bottom-3 left-3 right-3 flex justify-between text-xs text-[#6e7681] font-mono">
+        <div className="absolute bottom-2 sm:bottom-3 left-2 sm:left-3 right-2 sm:right-3 flex flex-col sm:flex-row justify-between gap-1 sm:gap-0 text-[10px] sm:text-xs text-[#6e7681] font-mono">
           <span>Numbers = power</span>
-          <span>You: teal | Yours: green | Enemy: red | PVE: gray</span>
+          <span className="hidden sm:inline">You: teal | Yours: green | Enemy: red | PVE: gray</span>
+          <span className="sm:hidden">Teal=you | Green=yours | Red=enemy</span>
         </div>
       </div>
-      <p className="text-xs text-[#8b949e] font-mono">
+      <p className="text-[10px] sm:text-xs text-[#8b949e] font-mono">
         Fortify your captures to defend. Attack PVE or PVP. Power = level x units.
       </p>
     </div>

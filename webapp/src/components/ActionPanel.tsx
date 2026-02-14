@@ -34,7 +34,7 @@ function ActionButton({
     <button
       onClick={onClick}
       disabled={disabled || loading}
-      className="w-full py-2 text-sm font-mono border border-[#30363d] rounded hover:border-[#39c5cf] hover:bg-[#21262d] disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+      className="w-full py-2.5 sm:py-2 text-sm font-mono border border-[#30363d] rounded hover:border-[#39c5cf] hover:bg-[#21262d] disabled:opacity-50 disabled:cursor-not-allowed transition-colors active:bg-[#39c5cf]/20"
     >
       {loading ? "..." : label}
     </button>
@@ -251,18 +251,18 @@ export function ActionPanel() {
 
   if (!mounted) {
     return (
-      <div className="space-y-4">
-        <h2 className="font-mono font-semibold text-[#e6edf3]">Actions</h2>
-        <p className="text-sm text-[#8b949e]">Loading...</p>
+      <div className="space-y-3 sm:space-y-4">
+        <h2 className="font-mono font-semibold text-[#e6edf3] text-sm sm:text-base">Actions</h2>
+        <p className="text-xs sm:text-sm text-[#8b949e]">Loading...</p>
       </div>
     );
   }
 
   if (!isConnected) {
     return (
-      <div className="space-y-4">
-        <h2 className="font-mono font-semibold text-[#e6edf3]">Actions</h2>
-        <p className="text-sm text-[#8b949e]">Connect wallet to interact</p>
+      <div className="space-y-3 sm:space-y-4">
+        <h2 className="font-mono font-semibold text-[#e6edf3] text-sm sm:text-base">Actions</h2>
+        <p className="text-xs sm:text-sm text-[#8b949e]">Connect wallet to interact</p>
       </div>
     );
   }
@@ -272,19 +272,19 @@ export function ActionPanel() {
   const wrongChain = chainId !== 5611;
 
   return (
-    <div className="space-y-4">
-      <h2 className="font-mono font-semibold text-[#e6edf3]">Actions</h2>
-      <p className="text-xs text-[#6e7681]">
-        Order: Approve - Deposit - Spawn - Move - Fortify (defend) - Attack
+    <div className="space-y-3 sm:space-y-4">
+      <h2 className="font-mono font-semibold text-[#e6edf3] text-sm sm:text-base">Actions</h2>
+      <p className="text-[10px] sm:text-xs text-[#6e7681]">
+        Order: Approve - Deposit - Spawn - Move - Fortify - Attack
       </p>
       {wrongChain && (
-        <div className="rounded border border-amber-900/50 bg-amber-950/30 px-3 py-2 text-sm text-amber-400">
-          Wrong network. Switch to opBNB Testnet (chain 5611).
+        <div className="rounded border border-amber-900/50 bg-amber-950/30 px-2 sm:px-3 py-2 text-xs sm:text-sm text-amber-400">
+          Wrong network. Switch to opBNB Testnet (5611).
         </div>
       )}
       {loading && (
-        <div className="rounded border border-[#30363d] px-3 py-2 text-sm text-[#8b949e] flex items-center justify-between gap-2">
-          <span>Waiting for confirmation...</span>
+        <div className="rounded border border-[#30363d] px-2 sm:px-3 py-2 text-xs sm:text-sm text-[#8b949e] flex items-center justify-between gap-2">
+          <span>Confirming...</span>
           <button
             type="button"
             onClick={() => reset()}
@@ -295,35 +295,36 @@ export function ActionPanel() {
         </div>
       )}
       {showError && (
-        <div className="rounded border border-red-900/50 bg-red-950/30 px-3 py-2 text-sm text-red-400">
+        <div className="rounded border border-red-900/50 bg-red-950/30 px-2 sm:px-3 py-2 text-xs sm:text-sm text-red-400 break-words">
           {txMessage}
         </div>
       )}
       {isTxSuccess && hash && (
-        <div className="rounded border border-green-900/50 bg-green-950/30 px-3 py-2 text-sm text-green-400">
-          Transaction confirmed.
+        <div className="rounded border border-green-900/50 bg-green-950/30 px-2 sm:px-3 py-2 text-xs sm:text-sm text-green-400">
+          Confirmed!
           <a
             href={`https://opbnb-testnet.bscscan.com/tx/${hash}`}
             target="_blank"
             rel="noopener noreferrer"
             className="ml-2 underline hover:text-green-300"
           >
-            View on explorer
+            View
           </a>
         </div>
       )}
-      <div className="space-y-3">
-        <div className="border border-[#21262d] rounded p-3">
-          <h3 className="font-mono text-sm text-[#39c5cf] mb-2">Deposit Gold</h3>
-          <p className="text-xs text-[#8b949e] mb-2">
-            Step 1: Approve. Step 2: Deposit (moves Gold to escrow for Spawn).
+      <div className="space-y-2 sm:space-y-3">
+        <div className="border border-[#21262d] rounded p-2 sm:p-3">
+          <h3 className="font-mono text-xs sm:text-sm text-[#39c5cf] mb-1 sm:mb-2">Deposit Gold</h3>
+          <p className="text-[10px] sm:text-xs text-[#8b949e] mb-2">
+            Step 1: Approve. Step 2: Deposit (moves Gold to escrow).
           </p>
           <input
             type="text"
+            inputMode="decimal"
             placeholder="Amount"
             value={depositAmount}
             onChange={(e) => setDepositAmount(e.target.value)}
-            className="w-full mb-2 px-2 py-1 text-sm font-mono bg-[#0d1117] border border-[#30363d] rounded"
+            className="w-full mb-2 px-2 py-2 sm:py-1 text-sm font-mono bg-[#0d1117] border border-[#30363d] rounded"
           />
           <div className="flex gap-2">
             {needsApprove && (
@@ -342,15 +343,15 @@ export function ActionPanel() {
           </div>
         </div>
 
-        <div className="border border-[#21262d] rounded p-3">
-          <h3 className="font-mono text-sm text-[#39c5cf] mb-2">Spawn</h3>
-          <p className="text-xs text-[#8b949e] mb-2">
-            1 Gold per unit. Needs Gold in escrow (Deposit first). Fee: 0.00001 tBNB
+        <div className="border border-[#21262d] rounded p-2 sm:p-3">
+          <h3 className="font-mono text-xs sm:text-sm text-[#39c5cf] mb-1 sm:mb-2">Spawn</h3>
+          <p className="text-[10px] sm:text-xs text-[#8b949e] mb-2">
+            1 Gold = 1 unit. Deposit Gold first. Fee: 0.00001 tBNB
           </p>
           <select
             value={spawnLoc}
             onChange={(e) => setSpawnLoc(Number(e.target.value))}
-            className="w-full mb-2 px-2 py-1 text-sm font-mono bg-[#0d1117] border border-[#30363d] rounded"
+            className="w-full mb-2 px-2 py-2 sm:py-1 text-sm font-mono bg-[#0d1117] border border-[#30363d] rounded"
           >
             {LOCATIONS.map((id) => (
               <option key={id} value={id}>
@@ -360,10 +361,11 @@ export function ActionPanel() {
           </select>
           <input
             type="text"
+            inputMode="decimal"
             placeholder="Amount"
             value={spawnAmount}
             onChange={(e) => setSpawnAmount(e.target.value)}
-            className="w-full mb-2 px-2 py-1 text-sm font-mono bg-[#0d1117] border border-[#30363d] rounded"
+            className="w-full mb-2 px-2 py-2 sm:py-1 text-sm font-mono bg-[#0d1117] border border-[#30363d] rounded"
           />
           <ActionButton
             label="Spawn"
@@ -374,15 +376,15 @@ export function ActionPanel() {
         </div>
 
         {ownedLocationIds.length > 0 && (
-          <div className="border border-[#21262d] rounded p-3">
-            <h3 className="font-mono text-sm text-[#39c5cf] mb-2">Fortify (PVP Defense)</h3>
-            <p className="text-xs text-[#8b949e] mb-2">
-              Deploy units to locations you own. Defenders block attackers.
+          <div className="border border-[#21262d] rounded p-2 sm:p-3">
+            <h3 className="font-mono text-xs sm:text-sm text-[#39c5cf] mb-1 sm:mb-2">Fortify (Defense)</h3>
+            <p className="text-[10px] sm:text-xs text-[#8b949e] mb-2">
+              Deploy units to defend your locations.
             </p>
             <select
               value={ownedLocationIds.includes(fortifyLoc) ? fortifyLoc : ownedLocationIds[0] ?? 1}
               onChange={(e) => setFortifyLoc(Number(e.target.value))}
-              className="w-full mb-2 px-2 py-1 text-sm font-mono bg-[#0d1117] border border-[#30363d] rounded"
+              className="w-full mb-2 px-2 py-2 sm:py-1 text-sm font-mono bg-[#0d1117] border border-[#30363d] rounded"
             >
               {ownedLocationIds.map((id) => (
                 <option key={id} value={id}>
@@ -392,10 +394,11 @@ export function ActionPanel() {
             </select>
             <input
               type="text"
+              inputMode="decimal"
               placeholder="Units to deploy"
               value={fortifyAmount}
               onChange={(e) => setFortifyAmount(e.target.value)}
-              className="w-full mb-2 px-2 py-1 text-sm font-mono bg-[#0d1117] border border-[#30363d] rounded"
+              className="w-full mb-2 px-2 py-2 sm:py-1 text-sm font-mono bg-[#0d1117] border border-[#30363d] rounded"
             />
             <ActionButton
               label="Fortify"
@@ -406,16 +409,16 @@ export function ActionPanel() {
           </div>
         )}
 
-        <div className="border border-[#21262d] rounded p-3">
-          <h3 className="font-mono text-sm text-[#39c5cf] mb-2">Move</h3>
-          <p className="text-xs text-[#8b949e] mb-2">
-            Adjacent: 1-2, 1-3, 2-3, 2-4, 3-4. Fee: 0.00001 tBNB (~$0.01)
+        <div className="border border-[#21262d] rounded p-2 sm:p-3">
+          <h3 className="font-mono text-xs sm:text-sm text-[#39c5cf] mb-1 sm:mb-2">Move</h3>
+          <p className="text-[10px] sm:text-xs text-[#8b949e] mb-2">
+            Adjacent: 1-2, 1-3, 2-3, 2-4, 3-4. Fee: 0.00001 tBNB
           </p>
-          <div className="flex gap-2 mb-2">
+          <div className="flex gap-2 mb-2 items-center">
             <select
               value={moveFrom}
               onChange={(e) => setMoveFrom(Number(e.target.value))}
-              className="flex-1 px-2 py-1 text-sm font-mono bg-[#0d1117] border border-[#30363d] rounded"
+              className="flex-1 px-2 py-2 sm:py-1 text-sm font-mono bg-[#0d1117] border border-[#30363d] rounded"
             >
               {LOCATIONS.map((id) => (
                 <option key={id} value={id}>
@@ -423,11 +426,11 @@ export function ActionPanel() {
                 </option>
               ))}
             </select>
-            <span className="text-[#8b949e]">-&gt;</span>
+            <span className="text-[#8b949e] text-lg">→</span>
             <select
               value={moveTo}
               onChange={(e) => setMoveTo(Number(e.target.value))}
-              className="flex-1 px-2 py-1 text-sm font-mono bg-[#0d1117] border border-[#30363d] rounded"
+              className="flex-1 px-2 py-2 sm:py-1 text-sm font-mono bg-[#0d1117] border border-[#30363d] rounded"
             >
               {LOCATIONS.map((id) => (
                 <option key={id} value={id}>
@@ -443,15 +446,15 @@ export function ActionPanel() {
           />
         </div>
 
-        <div className="border border-[#21262d] rounded p-3">
-          <h3 className="font-mono text-sm text-[#39c5cf] mb-2">Attack</h3>
-          <p className="text-xs text-[#8b949e] mb-2">
-            Min 25 units. Power = level x amount. Need power &gt; defender to win. Fee: 0.00005 tBNB
+        <div className="border border-[#21262d] rounded p-2 sm:p-3">
+          <h3 className="font-mono text-xs sm:text-sm text-[#39c5cf] mb-1 sm:mb-2">Attack</h3>
+          <p className="text-[10px] sm:text-xs text-[#8b949e] mb-2">
+            Min 25 units. Power = level x amount. Fee: 0.00005 tBNB
           </p>
           <select
             value={attackLoc}
             onChange={(e) => setAttackLoc(Number(e.target.value))}
-            className="w-full mb-2 px-2 py-1 text-sm font-mono bg-[#0d1117] border border-[#30363d] rounded"
+            className="w-full mb-2 px-2 py-2 sm:py-1 text-sm font-mono bg-[#0d1117] border border-[#30363d] rounded"
           >
             {LOCATIONS.map((id, i) => {
               const owner = locationOwners?.[i]?.result as `0x${string}` | undefined;
@@ -459,17 +462,18 @@ export function ActionPanel() {
               const p = getDefenderPower(i);
               return (
                 <option key={id} value={id}>
-                  Target {id} ({isPvp ? "PVP" : "PVE"}, {p} power)
+                  {id} ({isPvp ? "PVP" : "PVE"}, {p} pwr)
                 </option>
               );
             })}
           </select>
           <input
             type="text"
+            inputMode="decimal"
             placeholder="Units (min 25)"
             value={attackAmount}
             onChange={(e) => setAttackAmount(e.target.value)}
-            className="w-full mb-2 px-2 py-1 text-sm font-mono bg-[#0d1117] border border-[#30363d] rounded"
+            className="w-full mb-2 px-2 py-2 sm:py-1 text-sm font-mono bg-[#0d1117] border border-[#30363d] rounded"
           />
           {attackAmount && (() => {
             const amt = parseEther(attackAmount || "0");
@@ -477,8 +481,8 @@ export function ActionPanel() {
             const need = getDefenderPower(attackLoc - 1);
             if (power < 25) return null;
             return (
-              <p className="text-xs text-[#6e7681] mb-2">
-                Your power: {power}. {need > 0 ? `Need &gt;${need} to win.` : "Empty location, you win."}
+              <p className="text-[10px] sm:text-xs text-[#6e7681] mb-2">
+                Your power: {power}. {need > 0 ? `Need >${need} to win.` : "Empty, you win."}
               </p>
             );
           })()}
