@@ -7,7 +7,7 @@ Skill-based GameFi on opBNB/BSC. Fully onchain, deterministic, no RNG. Map-based
 
 ## What is Territory?
 
-Territory is an onchain strategy game where outcomes are determined by player decisions, not luck. Deposit Gold, spawn units, move across map locations, fortify your captures for PVP defense, and attack PVE or other players. Combat is deterministic (power = level × amount; defender wins ties). Fees: Move/Spawn 0.00001 BNB, Attack 0.00005 BNB; 30% of fees fund CL8Y buy-and-burn.
+Territory is an onchain strategy game where outcomes are determined by player decisions, not luck. Deposit Gold, spawn units, move across map locations, fortify your captures for PVP defense, and attack PVE or other players. Combat is deterministic (power = level × amount; defender wins ties). Fees: Move/Spawn 0.00001 BNB, Attack 0.00005 BNB. Fee split: 60% protocol treasury, 10% DAO treasury, 30% CL8Y buy-and-burn.
 
 ## Screenshots
 
@@ -53,7 +53,7 @@ Open [http://localhost:3000](http://localhost:3000) or try the static demo at `w
 - AGPL open source
 - EVM-based (opBNB / BSC)
 - Fees per action: Move/Spawn 0.00001 BNB, Attack 0.00005 BNB
-- 30% of all fees routed to buy & burn CL8Y
+- Fee split: 60% protocol treasury, 10% DAO treasury, 30% CL8Y buy & burn
 - Payouts planned (treasury rewards, PVP bounties) – see [Roadmap](docs/ROADMAP.md)
 
 ## Project Structure
@@ -83,9 +83,10 @@ forge test
 
 Set constructor args for FeeCollector:
 
-- `treasury`: address receiving 70% of fees
+- `treasury`: address receiving 60% of fees (protocol operations)
+- `daoTreasury`: address receiving 10% of fees (DAO/community fund)
 - `router`: PancakeSwap V2 router (opBNB: `0x8cFe327CEc66d1C090Dd72bd0FF11d690C33a2Eb`)
-- `cl8yToken`: CL8Y token address
+- `cl8yToken`: CL8Y token address (30% used for buy & burn)
 - `wbnb`: WBNB on opBNB
 
 ## Docs
