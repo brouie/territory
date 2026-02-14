@@ -2,7 +2,8 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { useAccount, useConnect, useDisconnect } from "wagmi";
+import { useAccount, useDisconnect } from "wagmi";
+import { useAppKit } from "@reown/appkit/react";
 import Image from "next/image";
 import { MapView } from "@/components/MapView";
 import { PlayerPanel } from "@/components/PlayerPanel";
@@ -39,7 +40,7 @@ export default function Home() {
   useEffect(() => setMounted(true), []);
 
   const { address, isConnected } = useAccount();
-  const { connect, connectors } = useConnect();
+  const { open } = useAppKit();
   const { disconnect } = useDisconnect();
 
   if (!mounted) {
@@ -75,7 +76,7 @@ export default function Home() {
           </p>
           <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 w-full sm:w-auto px-4 sm:px-0">
             <button
-              onClick={() => connect({ connector: connectors[0] })}
+              onClick={() => open()}
               className="w-full sm:w-auto px-8 py-4 text-base font-semibold bg-[#39c5cf] text-[#0a0e14] rounded-lg hover:opacity-90 transition-opacity shadow-lg shadow-[#39c5cf]/20"
             >
               Connect Wallet
