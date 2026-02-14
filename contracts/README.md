@@ -52,7 +52,8 @@ Fees become: Move/Spawn 0.00001 BNB, Attack 0.00005 BNB. Frontend defaults match
 
 ```powershell
 $env:PRIVATE_KEY = "0x..."
-$env:TREASURY = "0x..."
+$env:TREASURY = "0x..."       # protocol treasury (game ops, rewards)
+$env:DAO_TREASURY = "0x..."  # DAO multisig (infrastructure, community); defaults to deployer if unset
 $env:ROUTER = "0x8cFe327CEc66d1C090Dd72bd0FF11d690C33a2Eb"
 $env:CL8Y_TOKEN = "0x..."
 $env:WBNB = "0x4200000000000000000000000000000000000006"

@@ -11,6 +11,7 @@ contract MapTest is Test {
     FeeCollector public feeCollector;
 
     address constant TREASURY = address(0x1111);
+    address constant DAO = address(0x5555);
     address constant ROUTER = address(0x2222);
     address constant CL8Y = address(0x3333);
     address constant WBNB = address(0x4444);
@@ -19,7 +20,7 @@ contract MapTest is Test {
     uint256 constant MOVE_FEE = 0.001 ether;
 
     function setUp() public {
-        feeCollector = new FeeCollector(TREASURY, ROUTER, CL8Y, WBNB);
+        feeCollector = new FeeCollector(TREASURY, DAO, ROUTER, CL8Y, WBNB);
         map = new Map(address(feeCollector), MOVE_FEE);
 
         // Setup: 3 locations in a line: 1 -- 2 -- 3
@@ -49,7 +50,8 @@ contract MapTest is Test {
 
         assertEq(map.getPlayerLocation(player), 2);
         assertEq(feeCollector.cl8yPoolWei(), (MOVE_FEE * 3000) / 10000);
-        assertEq(TREASURY.balance, (MOVE_FEE * 7000) / 10000);
+        assertEq(TREASURY.balance, (MOVE_FEE * 6000) / 10000);
+        assertEq(DAO.balance, (MOVE_FEE * 1000) / 10000);
     }
 
     function test_RevertWhenNotAdjacent() public {

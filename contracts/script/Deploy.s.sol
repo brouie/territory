@@ -19,6 +19,7 @@ contract DeployScript is Script {
 
         address deployer = vm.addr(deployerPrivateKey);
         address treasury = vm.envOr("TREASURY", deployer);
+        address dao = vm.envOr("DAO_TREASURY", deployer);
         address router = vm.envOr("ROUTER", address(0));
         address cl8y = vm.envOr("CL8Y_TOKEN", address(0));
         address wbnb = vm.envOr("WBNB", address(0x4200000000000000000000000000000000000006));
@@ -50,7 +51,7 @@ contract DeployScript is Script {
         uint256 spawnFee = 0.00001 ether;
         uint256 attackFee = 0.00005 ether;  // ~$0.05, expensive action
 
-        FeeCollector feeCollector = new FeeCollector(treasury, router, cl8y, wbnb);
+        FeeCollector feeCollector = new FeeCollector(treasury, dao, router, cl8y, wbnb);
         GameMaster gameMaster = new GameMaster();
         Map map = new Map(address(feeCollector), moveFee);
         Garrison garrison = new Garrison(address(gameMaster), address(map));

@@ -34,6 +34,7 @@ contract FullScenarioTest is Test {
     address alice = address(0xa11);
     address bob = address(0xb0b);
     address constant TREASURY = address(0x1111);
+    address constant DAO = address(0x5555);
     address constant ROUTER = address(0x2222);
     address constant CL8Y = address(0x3333);
     address constant WBNB = address(0x4444);
@@ -41,7 +42,7 @@ contract FullScenarioTest is Test {
     IERC20 unitToken;
 
     function setUp() public {
-        feeCollector = new FeeCollector(TREASURY, ROUTER, CL8Y, WBNB);
+        feeCollector = new FeeCollector(TREASURY, DAO, ROUTER, CL8Y, WBNB);
         gameMaster = new GameMaster();
         map = new Map(address(feeCollector), 0.001 ether);
         garrison = new Garrison(address(gameMaster), address(map));
@@ -94,6 +95,7 @@ contract FullScenarioTest is Test {
         vm.stopPrank();
 
         assertGt(TREASURY.balance, 0);
+        assertGt(DAO.balance, 0);
         assertGt(feeCollector.cl8yPoolWei(), 0);
     }
 }

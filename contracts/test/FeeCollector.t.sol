@@ -8,15 +8,16 @@ contract FeeCollectorTest is Test {
     FeeCollector public feeCollector;
 
     address constant TREASURY = address(0x1111);
+    address constant DAO = address(0x5555);
     address constant ROUTER = address(0x2222);
     address constant CL8Y = address(0x3333);
     address constant WBNB = address(0x4444);
 
     function setUp() public {
-        feeCollector = new FeeCollector(TREASURY, ROUTER, CL8Y, WBNB);
+        feeCollector = new FeeCollector(TREASURY, DAO, ROUTER, CL8Y, WBNB);
     }
 
-    function test_Split70_30() public {
+    function test_Split60_10_30() public {
         uint256 amount = 1 ether;
         vm.deal(address(this), amount);
 
@@ -24,7 +25,8 @@ contract FeeCollectorTest is Test {
         assertTrue(ok);
 
         assertEq(feeCollector.cl8yPoolWei(), 0.3 ether);
-        assertEq(TREASURY.balance, 0.7 ether);
+        assertEq(TREASURY.balance, 0.6 ether);
+        assertEq(DAO.balance, 0.1 ether);
     }
 
     function test_ZeroValueNoRevert() public {
@@ -34,7 +36,8 @@ contract FeeCollectorTest is Test {
     }
 
     function test_BpsConstants() public view {
-        assertEq(feeCollector.TREASURY_BPS(), 7000);
+        assertEq(feeCollector.TREASURY_BPS(), 6000);
+        assertEq(feeCollector.DAO_BPS(), 1000);
         assertEq(feeCollector.CL8Y_BPS(), 3000);
         assertEq(feeCollector.BPS_DENOMINATOR(), 10000);
     }

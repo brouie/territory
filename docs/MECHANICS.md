@@ -74,7 +74,8 @@ Skill-based GameFi on opBNB/BSC. Fully onchain, deterministic, no RNG. Map-based
 
 ### Fee Split
 
-- **70%**: Game treasury / protocol (reused for rewards, operations, or held)
+- **60%**: Protocol treasury (game operations, rewards, held)
+- **10%**: DAO treasury (infrastructure, community-driven)
 - **30%**: Routed to CL8Y buy-and-burn (swap for CL8Y on DEX, then burn)
 
 ### Fee Token
@@ -85,10 +86,10 @@ Skill-based GameFi on opBNB/BSC. Fully onchain, deterministic, no RNG. Map-based
 ## CL8Y Integration
 
 1. FeeCollector receives fees (BNB or token)
-2. On each fee collection (or batched): split 70/30
+2. On each fee collection (or batched): split 60/10/30
 3. 30% portion: swap via DEX/router on opBNB for CL8Y
 4. Burn received CL8Y (send to dead address or use burn function if available)
-5. 70% remains in FeeCollector or forwarded to GameMaster/treasury
+5. 60% to protocol treasury, 10% to DAO treasury
 
 ## Skill-Based Design
 

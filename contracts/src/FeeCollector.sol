@@ -9,13 +9,15 @@ import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
 import {ReentrancyGuard} from "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
 
 /// @title FeeCollector
-/// @notice Collects per-action fees, splits 70% to treasury and 30% for CL8Y buy-and-burn
+/// @notice Collects per-action fees, splits 60% to treasury, 10% to DAO, 30% for CL8Y buy-and-burn
 /// @dev Integrates with PancakeSwap V2 router on opBNB for CL8Y swaps
 contract FeeCollector is IFeeCollector, Ownable, ReentrancyGuard {
     using SafeERC20 for IERC20;
 
-    /// @notice Basis points for treasury share (7000 = 70%)
-    uint256 public constant TREASURY_BPS = 7000;
+    /// @notice Basis points for protocol treasury share (6000 = 60%)
+    uint256 public constant TREASURY_BPS = 6000;
+    /// @notice Basis points for DAO treasury share (1000 = 10%)
+    uint256 public constant DAO_BPS = 1000;
     /// @notice Basis points for CL8Y share (3000 = 30%)
     uint256 public constant CL8Y_BPS = 3000;
     /// @notice Denominator for basis points
@@ -24,8 +26,10 @@ contract FeeCollector is IFeeCollector, Ownable, ReentrancyGuard {
     /// @notice Dead address for burning CL8Y (no burn function)
     address private constant DEAD = 0x000000000000000000000000000000000000dEaD;
 
-    /// @notice Treasury address receiving 70% of fees
+    /// @notice Protocol treasury address receiving 60% of fees (game ops, rewards)
     address public treasury;
+    /// @notice DAO treasury address receiving 10% of fees (infrastructure, community)
+    address public daoTreasury;
     /// @notice PancakeSwap V2 router for BNB -> CL8Y swap
     address public router;
     /// @notice CL8Y token address on opBNB/BSC
@@ -51,11 +55,12 @@ contract FeeCollector is IFeeCollector, Ownable, ReentrancyGuard {
         );
     }
 
-    constructor(address _treasury, address _router, address _cl8yToken, address _wbnb) Ownable(msg.sender) {
-        if (_treasury == address(0) || _router == address(0) || _cl8yToken == address(0) || _wbnb == address(0)) {
+    constructor(address _treasury, address _dao, address _router, address _cl8yToken, address _wbnb) Ownable(msg.sender) {
+        if (_treasury == address(0) || _dao == address(0) || _router == address(0) || _cl8yToken == address(0) || _wbnb == address(0)) {
             revert ZeroAddress();
         }
         treasury = _treasury;
+        daoTreasury = _dao;
         router = _router;
         cl8yToken = _cl8yToken;
         wbnb = _wbnb;
@@ -67,10 +72,16 @@ contract FeeCollector is IFeeCollector, Ownable, ReentrancyGuard {
         if (msg.value == 0) return;
 
         uint256 treasuryAmount = (msg.value * TREASURY_BPS) / BPS_DENOMINATOR;
-        uint256 cl8yAmount = msg.value - treasuryAmount;
+        uint256 daoAmount = (msg.value * DAO_BPS) / BPS_DENOMINATOR;
+        uint256 cl8yAmount = msg.value - treasuryAmount - daoAmount;
 
         if (treasuryAmount > 0) {
             (bool ok,) = treasury.call{value: treasuryAmount}("");
+            if (!ok) revert TransferFailed();
+        }
+
+        if (daoAmount > 0) {
+            (bool ok,) = daoTreasury.call{value: daoAmount}("");
             if (!ok) revert TransferFailed();
         }
 
@@ -78,7 +89,7 @@ contract FeeCollector is IFeeCollector, Ownable, ReentrancyGuard {
             cl8yPoolWei += cl8yAmount;
         }
 
-        emit FeesCollected(msg.value, treasuryAmount, cl8yAmount);
+        emit FeesCollected(msg.value, treasuryAmount, daoAmount, cl8yAmount);
     }
 
     /// @inheritdoc IFeeCollector
@@ -103,6 +114,14 @@ contract FeeCollector is IFeeCollector, Ownable, ReentrancyGuard {
         address old = treasury;
         treasury = _treasury;
         emit TreasuryUpdated(old, _treasury);
+    }
+
+    /// @notice Update DAO treasury address
+    function setDaoTreasury(address _dao) external onlyOwner {
+        if (_dao == address(0)) revert ZeroAddress();
+        address old = daoTreasury;
+        daoTreasury = _dao;
+        emit DaoTreasuryUpdated(old, _dao);
     }
 
     /// @notice Update router address

@@ -11,7 +11,9 @@ Core Contracts: Map, Combat, GameMaster
        v
    FeeCollector (receives fees)
        |
-       +-- 70% --> Treasury / GameMaster
+       +-- 60% --> Protocol Treasury (game ops, rewards)
+       |
+       +-- 10% --> DAO Treasury (infrastructure, community)
        |
        +-- 30% --> CL8Y Router --> buy CL8Y --> burn
 ```
@@ -21,7 +23,7 @@ Core Contracts: Map, Combat, GameMaster
 ### FeeCollector
 
 - Receives fees from Map, Combat, and GameMaster (or spawn logic)
-- Splits incoming value: 70% to treasury, 30% to CL8Y buy-burn
+- Splits incoming value: 60% to protocol treasury, 10% to DAO treasury, 30% to CL8Y buy-burn
 - If fee token is BNB: accept `payable`, split native
 - If fee token is ERC20: receive via transfer, split and route
 - Integrates with DEX (PancakeSwap or similar on opBNB) for CL8Y swap
@@ -56,7 +58,7 @@ Core Contracts: Map, Combat, GameMaster
 
 ### CL8Y Router (or embedded in FeeCollector)
 
-- Takes 30% of fees
+- Takes 30% of fees (CL8Y_BPS)
 - Swaps for CL8Y via DEX (exact path TBD: BNB->CL8Y or token->BNB->CL8Y)
 - Burns CL8Y (dead address or `burn()`)
 
