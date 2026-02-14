@@ -9,6 +9,7 @@ import {
   COMBAT_ABI,
   UNIT_FACTORY_ABI,
 } from "@/lib/contracts";
+import { LocationModal } from "./LocationModal";
 
 const LOCATIONS = [
   { id: 1, x: 50, y: 18, label: "1" },
@@ -25,8 +26,16 @@ const EDGES = [
   [3, 4],
 ];
 
+const ADJACENCY_MAP: Record<number, number[]> = {
+  1: [2, 3],
+  2: [1, 3, 4],
+  3: [1, 2, 4],
+  4: [2, 3],
+};
+
 export function MapView() {
   const [mounted, setMounted] = useState(false);
+  const [selectedLocation, setSelectedLocation] = useState<number | null>(null);
   useEffect(() => setMounted(true), []);
 
   const { address, isConnected } = useAccount();
@@ -166,7 +175,12 @@ export function MapView() {
             }
             if (isYouHere) stroke = "#39c5cf";
             return (
-              <g key={loc.id} filter={isYouHere ? "url(#glow)" : undefined}>
+              <g 
+                key={loc.id} 
+                filter={isYouHere ? "url(#glow)" : undefined}
+                onClick={() => setSelectedLocation(loc.id)}
+                className="cursor-pointer hover:opacity-80 transition-opacity"
+              >
                 <circle
                   cx={loc.x}
                   cy={loc.y}
@@ -207,8 +221,32 @@ export function MapView() {
         </div>
       </div>
       <p className="text-[10px] sm:text-xs text-[#8b949e] font-mono">
-        Fortify your captures to defend. Attack PVE or PVP. Power = level x units.
+        Tap a location for details. Fortify to defend. Power = level x units.
       </p>
+      
+      {/* Location Modal */}
+      {selectedLocation !== null && (() => {
+        const i = selectedLocation - 1;
+        const owner = ownersData?.[i]?.result as `0x${string}` | undefined;
+        const basePower = basePowerData?.[i]?.result as bigint | undefined;
+        const garrison = garrisonData?.[i]?.result as bigint | undefined;
+        const isYours = owner && address && owner.toLowerCase() === address.toLowerCase();
+        const isPvp = owner && owner !== "0x0000000000000000000000000000000000000000";
+        
+        return (
+          <LocationModal
+            isOpen={true}
+            onClose={() => setSelectedLocation(null)}
+            locationId={selectedLocation}
+            owner={owner || null}
+            basePower={basePower !== undefined ? Number(basePower) / 1e18 : 0}
+            garrisonUnits={garrison !== undefined ? Number(garrison) / 1e18 : 0}
+            isYours={!!isYours}
+            isPvp={!!isPvp}
+            adjacentLocations={ADJACENCY_MAP[selectedLocation] || []}
+          />
+        );
+      })()}
     </div>
   );
 }

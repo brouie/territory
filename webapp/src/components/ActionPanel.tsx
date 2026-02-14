@@ -15,6 +15,8 @@ import {
   UNIT_FACTORY_ABI,
 } from "@/lib/contracts";
 import { parseEther } from "viem";
+import { BattleSimulator } from "./BattleSimulator";
+import { parseError } from "@/lib/errors";
 
 const LOCATIONS = [1, 2, 3, 4];
 const MIN_ATTACK = parseEther("25"); // 25 ether
@@ -267,8 +269,9 @@ export function ActionPanel() {
     );
   }
 
-  const txMessage = writeError?.message || txError?.message;
-  const showError = (writeError || isTxError) && txMessage;
+  const rawErrorMessage = writeError?.message || txError?.message;
+  const txMessage = parseError(rawErrorMessage);
+  const showError = (writeError || isTxError) && rawErrorMessage;
   const wrongChain = chainId !== 5611;
 
   return (
@@ -478,12 +481,17 @@ export function ActionPanel() {
           {attackAmount && (() => {
             const amt = parseEther(attackAmount || "0");
             const power = Number(amt) > 0 ? Number(amt) / 1e18 : 0;
-            const need = getDefenderPower(attackLoc - 1);
+            const defPower = getDefenderPower(attackLoc - 1);
+            const owner = locationOwners?.[attackLoc - 1]?.result as `0x${string}` | undefined;
+            const isPvp = owner && owner !== "0x0000000000000000000000000000000000000000";
             if (power < 25) return null;
             return (
-              <p className="text-[10px] sm:text-xs text-[#6e7681] mb-2">
-                Your power: {power}. {need > 0 ? `Need >${need} to win.` : "Empty, you win."}
-              </p>
+              <BattleSimulator
+                attackerPower={power}
+                defenderPower={defPower}
+                attackerUnits={power}
+                isPvp={!!isPvp}
+              />
             );
           })()}
           <ActionButton

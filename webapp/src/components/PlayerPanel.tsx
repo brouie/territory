@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useAccount, useReadContracts } from "wagmi";
+import { useQueryClient } from "@tanstack/react-query";
 import {
   ADDRESSES,
   MAP_ABI,
@@ -19,11 +20,26 @@ function formatUnits(val: bigint, decimals = 18): string {
   return decPart ? `${intPart}.${decPart}` : intPart;
 }
 
+function Skeleton({ className }: { className?: string }) {
+  return (
+    <div className={`animate-pulse bg-[#21262d] rounded ${className || ""}`} />
+  );
+}
+
 export function PlayerPanel() {
   const [mounted, setMounted] = useState(false);
+  const [isRefreshing, setIsRefreshing] = useState(false);
   useEffect(() => setMounted(true), []);
 
+  const queryClient = useQueryClient();
   const { address, isConnected } = useAccount();
+
+  const handleRefresh = async () => {
+    setIsRefreshing(true);
+    await queryClient.invalidateQueries({ queryKey: ["readContracts"] });
+    await queryClient.invalidateQueries({ queryKey: ["readContract"] });
+    setTimeout(() => setIsRefreshing(false), 500);
+  };
 
   const { data, isLoading } = useReadContracts({
     query: { refetchInterval: 4000 },
@@ -102,9 +118,44 @@ export function PlayerPanel() {
 
   return (
     <div className="space-y-3 sm:space-y-4">
-      <h2 className="font-mono font-semibold text-[#e6edf3] text-sm sm:text-base">Player</h2>
+      <div className="flex items-center justify-between">
+        <h2 className="font-mono font-semibold text-[#e6edf3] text-sm sm:text-base">Player</h2>
+        <button
+          onClick={handleRefresh}
+          disabled={isRefreshing}
+          className="p-1.5 text-[#6e7681] hover:text-[#39c5cf] transition-colors disabled:opacity-50"
+          title="Refresh data"
+        >
+          <svg 
+            className={`w-4 h-4 ${isRefreshing ? "animate-spin" : ""}`} 
+            fill="none" 
+            stroke="currentColor" 
+            viewBox="0 0 24 24"
+          >
+            <path 
+              strokeLinecap="round" 
+              strokeLinejoin="round" 
+              strokeWidth={2} 
+              d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" 
+            />
+          </svg>
+        </button>
+      </div>
+      
+      {/* Loading skeleton state */}
+      {isLoading && (
+        <div className="grid grid-cols-2 gap-3 sm:grid-cols-1 sm:gap-0 sm:space-y-2">
+          {[1, 2, 3, 4].map((i) => (
+            <div key={i} className="border border-[#21262d] rounded p-2 sm:border-0 sm:p-0">
+              <Skeleton className="h-3 w-16 mb-1 sm:hidden" />
+              <Skeleton className="h-5 w-20" />
+            </div>
+          ))}
+        </div>
+      )}
       
       {/* Mobile: Grid layout, Desktop: List */}
+      {!isLoading && (
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-1 sm:gap-0 sm:space-y-2">
         <div className="border border-[#21262d] rounded p-2 sm:border-0 sm:p-0">
           <p className="text-[10px] sm:text-xs text-[#6e7681] sm:hidden">Location</p>
@@ -155,6 +206,7 @@ export function PlayerPanel() {
           </p>
         </div>
       </div>
+      )}
       
       <p className="text-[10px] sm:text-xs text-[#6e7681]">
         Deposit Gold (after Approve), then Spawn. Spawn needs Gold in escrow.
