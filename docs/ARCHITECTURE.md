@@ -69,7 +69,7 @@ Core Contracts: Map, Combat, GameMaster
 1. User calls `Map.move(from, to)` with fee
 2. Map validates adjacency, player position, fee
 3. Map sends fee to FeeCollector
-4. FeeCollector splits 70/30
+4. FeeCollector splits 60/10/30 (protocol/DAO/CL8Y)
 5. Map updates player location
 
 ### Attack
@@ -78,7 +78,7 @@ Core Contracts: Map, Combat, GameMaster
 2. Combat fetches defender power, computes outcome
 3. Combat spends/burns units via GameMaster
 4. Combat sends fee to FeeCollector
-5. FeeCollector splits 70/30
+5. FeeCollector splits 60/10/30 (protocol/DAO/CL8Y)
 6. Combat updates location owner if attacker wins
 
 ### Spawn
@@ -87,7 +87,7 @@ Core Contracts: Map, Combat, GameMaster
 2. Resources consumed from escrow
 3. Units minted/added to player
 4. Fee sent to FeeCollector
-5. FeeCollector splits 70/30
+5. FeeCollector splits 60/10/30 (protocol/DAO/CL8Y)
 
 ## Access Control
 

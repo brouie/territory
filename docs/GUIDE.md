@@ -2,13 +2,58 @@
 
 This guide covers how to play Territory from first connection through combat and territorial control.
 
+## Getting Started (Testnet)
+
+### Step 1: Add opBNB Testnet to Your Wallet
+
+Add opBNB Testnet to MetaMask with these settings:
+- **Network Name:** opBNB Testnet
+- **RPC URL:** https://opbnb-testnet-rpc.bnbchain.org
+- **Chain ID:** 5611
+- **Symbol:** tBNB
+- **Explorer:** https://opbnb-testnet.bscscan.com
+
+### Step 2: Get tBNB for Fees
+
+Visit the BNB Chain Testnet Faucet: https://www.bnbchain.org/en/testnet-faucet
+
+Enter your wallet address and request tBNB. Each action costs a small fee, so keep some tBNB available.
+
+### Step 3: Get Gold Tokens
+
+On testnet, Gold is minted to the contract deployer. Ask in the Territory community for testnet Gold, or deploy your own contracts for testing.
+
+### Step 4: Connect to Territory
+
+Visit the game, click "Connect Wallet", and ensure you're on opBNB Testnet (chain 5611).
+
 ## Before You Start
 
-You need a wallet that supports opBNB or BSC (MetaMask, Trust Wallet, or similar). Ensure you have some BNB for transaction fees. Each action costs a small fee in BNB; 30 percent of that goes to CL8Y buy-and-burn. The rest stays in the protocol treasury.
+You need a wallet that supports opBNB or BSC (MetaMask, Trust Wallet, or similar). Ensure you have some BNB for transaction fees. Each action costs a small fee in BNB. Fees are split: 60% to protocol treasury, 10% to DAO treasury, and 30% to CL8Y buy-and-burn.
 
 Contracts must be deployed before you can interact. If you see "deploy contracts first" in the UI, the frontend is waiting for contract addresses from a deployment.
 
-## First Steps
+## Map Layout
+
+The map consists of 4 locations connected by paths:
+
+```
+       [1]
+      /   \
+    [2]---[3]
+      \   /
+       [4]
+```
+
+**Adjacent connections:**
+- Location 1 connects to: 2, 3
+- Location 2 connects to: 1, 3, 4
+- Location 3 connects to: 1, 2, 4
+- Location 4 connects to: 2, 3
+
+You cannot skip locations. To travel from 1 to 4, you must move through 2 or 3.
+
+## Game Actions
 
 ### 1. Deposit Gold
 
@@ -47,7 +92,7 @@ After capturing a location, you can fortify it by moving units there. Call `fort
 | Spawn  | 0.00001   |
 | Attack | 0.00005   |
 
-Fees are split 70 percent to treasury, 30 percent to CL8Y buy-and-burn. Excess BNB sent with a transaction is refunded.
+Fees are split: 60% protocol treasury, 10% DAO treasury, 30% CL8Y buy-and-burn. Excess BNB sent with a transaction is refunded.
 
 ## Tips
 
