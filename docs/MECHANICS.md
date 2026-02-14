@@ -2,7 +2,7 @@
 
 ## Overview
 
-Skill-based GameFi on opBNB/BSC. Fully onchain, deterministic, no RNG. Map-based gameplay with PVE and PVP battles. All actions incur fees; 30% of fees route to CL8Y buy-and-burn.
+Skill-based GameFi on opBNB/BSC. Fully onchain, deterministic, no RNG. Map-based gameplay with PVE and PVP battles. All actions incur fees; split 60% protocol treasury, 10% DAO treasury, 30% CL8Y buy-and-burn.
 
 ## Map Structure
 

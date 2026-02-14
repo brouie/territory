@@ -5,7 +5,7 @@ All notable changes to this project are documented here.
 ## [Unreleased]
 
 - Initial prototype implementation
-- FeeCollector: 70/30 split, CL8Y buy-and-burn integration
+- FeeCollector: 60/10/30 split (protocol/DAO/CL8Y), buy-and-burn integration
 - GameMaster: escrow, deposit, withdraw, spend/add/transfer balances
 - Map: locations, edges, movement with fees, location ownership
 - Combat: deterministic PVE/PVP, Garrison for defender units

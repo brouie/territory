@@ -73,7 +73,7 @@ contract Map is IMap, Ownable, ReentrancyGuard {
 
         _playerLocation[msg.sender] = toId;
 
-        // Forward fee to FeeCollector (splits 70% treasury / 30% CL8Y pool)
+        // Forward fee to FeeCollector (splits 60% protocol / 10% DAO / 30% CL8Y pool)
         (bool ok,) = address(feeCollector).call{value: moveFeeWei}("");
         require(ok, "Fee transfer failed");
 

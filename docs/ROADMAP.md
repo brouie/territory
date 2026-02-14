@@ -45,7 +45,7 @@ Ordered next steps for Territory. Complete each phase before moving to the next.
 
 ## Future Incentives
 
-Currently no explicit player payouts; fees split 70% treasury, 30% CL8Y buy-and-burn. Planned for mainnet:
+Currently no explicit player payouts; fees split 60% protocol treasury, 10% DAO treasury, 30% CL8Y buy-and-burn. Planned for mainnet:
 
 - **Treasury rewards** – Share of fees distributed to top players (e.g. weekly by territory held or PVP wins)
 - **Hold rewards** – Small Gold or token drip for holding locations over time
