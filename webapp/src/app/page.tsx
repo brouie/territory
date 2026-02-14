@@ -87,6 +87,9 @@ export default function Home() {
               Docs
             </Link>
           </div>
+          <p className="mt-6 text-xs text-[#6e7681] text-center px-4 max-w-sm">
+            On mobile? Open this site in your wallet&apos;s browser (MetaMask, Trust Wallet, or Rabby app).
+          </p>
           <div className="mt-12 sm:mt-16 flex flex-wrap justify-center gap-6 sm:gap-12 text-center px-4">
             <div>
               <p className="font-mono text-[#39c5cf] font-semibold mb-1">Onchain</p>
