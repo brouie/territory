@@ -9,27 +9,31 @@ import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
 import {ReentrancyGuard} from "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
 
 /// @title FeeCollector
-/// @notice Collects per-action fees, splits 60% to treasury, 10% to DAO, 30% for CL8Y buy-and-burn
+/// @notice Collects per-action fees, splits 40% protocol, 10% DAO, 20% CL8Y burn, 30% rewards
 /// @dev Integrates with PancakeSwap V2 router on opBNB for CL8Y swaps
 contract FeeCollector is IFeeCollector, Ownable, ReentrancyGuard {
     using SafeERC20 for IERC20;
 
-    /// @notice Basis points for protocol treasury share (6000 = 60%)
-    uint256 public constant TREASURY_BPS = 6000;
+    /// @notice Basis points for protocol treasury share (4000 = 40%)
+    uint256 public constant TREASURY_BPS = 4000;
     /// @notice Basis points for DAO treasury share (1000 = 10%)
     uint256 public constant DAO_BPS = 1000;
-    /// @notice Basis points for CL8Y share (3000 = 30%)
-    uint256 public constant CL8Y_BPS = 3000;
+    /// @notice Basis points for CL8Y share (2000 = 20%)
+    uint256 public constant CL8Y_BPS = 2000;
+    /// @notice Basis points for reward pool share (3000 = 30%)
+    uint256 public constant REWARD_BPS = 3000;
     /// @notice Denominator for basis points
     uint256 public constant BPS_DENOMINATOR = 10000;
 
     /// @notice Dead address for burning CL8Y (no burn function)
     address private constant DEAD = 0x000000000000000000000000000000000000dEaD;
 
-    /// @notice Protocol treasury address receiving 60% of fees (game ops, rewards)
+    /// @notice Protocol treasury address receiving 40% of fees (game ops)
     address public treasury;
     /// @notice DAO treasury address receiving 10% of fees (infrastructure, community)
     address public daoTreasury;
+    /// @notice Reward pool address receiving 30% of fees (player rewards)
+    address public rewardPool;
     /// @notice PancakeSwap V2 router for BNB -> CL8Y swap
     address public router;
     /// @notice CL8Y token address on opBNB/BSC
@@ -39,8 +43,10 @@ contract FeeCollector is IFeeCollector, Ownable, ReentrancyGuard {
     /// @notice Minimum BNB to trigger buy-burn (avoid dust swaps)
     uint256 public minCl8ySwapWei;
 
-    /// @notice Accumulated BNB earmarked for CL8Y buy-burn (30% of received fees)
+    /// @notice Accumulated BNB earmarked for CL8Y buy-burn (20% of received fees)
     uint256 public cl8yPoolWei;
+    /// @notice Accumulated BNB earmarked for player rewards (30% of received fees)
+    uint256 public rewardPoolWei;
 
     /// @notice Swap BNB for CL8Y via PancakeSwap V2 and send to dead address (burn)
     function _swapBnbForCl8yAndBurn(uint256 amountIn) internal {
@@ -55,12 +61,21 @@ contract FeeCollector is IFeeCollector, Ownable, ReentrancyGuard {
         );
     }
 
-    constructor(address _treasury, address _dao, address _router, address _cl8yToken, address _wbnb) Ownable(msg.sender) {
-        if (_treasury == address(0) || _dao == address(0) || _router == address(0) || _cl8yToken == address(0) || _wbnb == address(0)) {
+    constructor(
+        address _treasury,
+        address _dao,
+        address _rewardPool,
+        address _router,
+        address _cl8yToken,
+        address _wbnb
+    ) Ownable(msg.sender) {
+        if (_treasury == address(0) || _dao == address(0) || _rewardPool == address(0) || 
+            _router == address(0) || _cl8yToken == address(0) || _wbnb == address(0)) {
             revert ZeroAddress();
         }
         treasury = _treasury;
         daoTreasury = _dao;
+        rewardPool = _rewardPool;
         router = _router;
         cl8yToken = _cl8yToken;
         wbnb = _wbnb;
@@ -73,7 +88,8 @@ contract FeeCollector is IFeeCollector, Ownable, ReentrancyGuard {
 
         uint256 treasuryAmount = (msg.value * TREASURY_BPS) / BPS_DENOMINATOR;
         uint256 daoAmount = (msg.value * DAO_BPS) / BPS_DENOMINATOR;
-        uint256 cl8yAmount = msg.value - treasuryAmount - daoAmount;
+        uint256 cl8yAmount = (msg.value * CL8Y_BPS) / BPS_DENOMINATOR;
+        uint256 rewardAmount = msg.value - treasuryAmount - daoAmount - cl8yAmount;
 
         if (treasuryAmount > 0) {
             (bool ok,) = treasury.call{value: treasuryAmount}("");
@@ -89,7 +105,11 @@ contract FeeCollector is IFeeCollector, Ownable, ReentrancyGuard {
             cl8yPoolWei += cl8yAmount;
         }
 
-        emit FeesCollected(msg.value, treasuryAmount, daoAmount, cl8yAmount);
+        if (rewardAmount > 0) {
+            rewardPoolWei += rewardAmount;
+        }
+
+        emit FeesCollected(msg.value, treasuryAmount, daoAmount, cl8yAmount, rewardAmount);
     }
 
     /// @inheritdoc IFeeCollector
@@ -153,5 +173,32 @@ contract FeeCollector is IFeeCollector, Ownable, ReentrancyGuard {
         uint256 old = minCl8ySwapWei;
         minCl8ySwapWei = _min;
         emit MinCl8ySwapWeiUpdated(old, _min);
+    }
+
+    /// @notice Update reward pool address
+    function setRewardPool(address _rewardPool) external onlyOwner {
+        if (_rewardPool == address(0)) revert ZeroAddress();
+        address old = rewardPool;
+        rewardPool = _rewardPool;
+        emit RewardPoolUpdated(old, _rewardPool);
+    }
+
+    /// @notice Distribute rewards to a player (called by reward pool contract or owner)
+    /// @param player Address to receive rewards
+    /// @param amount Amount of BNB to send
+    function distributeReward(address player, uint256 amount) external nonReentrant {
+        require(msg.sender == rewardPool || msg.sender == owner(), "Not authorized");
+        require(amount <= rewardPoolWei, "Insufficient reward pool");
+        
+        rewardPoolWei -= amount;
+        (bool ok,) = player.call{value: amount}("");
+        if (!ok) revert TransferFailed();
+        
+        emit RewardsClaimed(player, amount);
+    }
+
+    /// @notice Get current reward pool balance
+    function getRewardPoolBalance() external view returns (uint256) {
+        return rewardPoolWei;
     }
 }

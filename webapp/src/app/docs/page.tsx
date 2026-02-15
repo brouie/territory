@@ -285,9 +285,9 @@ export default function DocsPage() {
 
           <div className="p-4 border border-[#21262d] rounded-lg bg-[#161b22]">
             <p className="font-mono text-sm text-[#e6edf3] mb-2">Fee Distribution</p>
-            <div className="grid grid-cols-3 gap-4 text-center">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 text-center">
               <div>
-                <p className="text-2xl font-mono text-[#39c5cf]">60%</p>
+                <p className="text-2xl font-mono text-[#39c5cf]">40%</p>
                 <p className="text-xs text-[#8b949e]">Protocol Treasury</p>
               </div>
               <div>
@@ -295,10 +295,17 @@ export default function DocsPage() {
                 <p className="text-xs text-[#8b949e]">DAO Treasury</p>
               </div>
               <div>
-                <p className="text-2xl font-mono text-[#39c5cf]">30%</p>
+                <p className="text-2xl font-mono text-[#39c5cf]">20%</p>
                 <p className="text-xs text-[#8b949e]">CL8Y Buy & Burn</p>
               </div>
+              <div>
+                <p className="text-2xl font-mono text-[#58a6ff]">30%</p>
+                <p className="text-xs text-[#8b949e]">Player Rewards</p>
+              </div>
             </div>
+            <p className="text-xs text-[#8b949e] mt-3 text-center">
+              Reward pool pays out to top players: most captures, most PVP wins, weekly/daily leaderboards.
+            </p>
           </div>
         </Section>
 
